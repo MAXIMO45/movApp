@@ -1,0 +1,7 @@
+{
+  "name": "mov_App",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
