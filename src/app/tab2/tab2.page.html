@@ -1,17 +1,53 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
-      Tab 2
+      Series
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 2 page"></app-explore-container>
+  <ion-list>
+    <app-slider
+    [sliderInputValue]="sliderContainer"
+    (sliderEventTrigger)="cardEventListener($event)"
+    ></app-slider>
+    <ion-grid fixed="true">
+      <div>
+        <ion-list>
+          <ion-item>
+            <ion-label>Filtrar por género</ion-label>
+            <ion-icon name="filter-outline"></ion-icon>
+            <ion-select placeholder="Filtrar por género" [value]="generoSelectedValue" (ionChange)=genSelectChange($event) multiple>
+              <ion-select-option *ngFor="let gen of generosList" value="{{gen.id}}">{{gen.name}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-label class="ion-text-center">Más populares</ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      <ion-row>
+        <ion-col *ngFor="let item of appCardContainer" size-lg="2" size-md="4" size-sm="6">
+          <app-card
+          [title]="item.title"
+          [image]="item.image"
+          [rating]="item.rating"
+          [model]="item.modelItem"
+          (cardEventTrigger)="cardEventListener($event)"
+          >
+          </app-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Cargando más películas...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-list>
 </ion-content>
