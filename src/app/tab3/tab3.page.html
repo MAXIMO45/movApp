@@ -17,14 +17,11 @@
     </ion-searchbar>
     <ion-item>
       <ion-label>Tipo de búsqueda</ion-label>
-      <ion-select
-        placeholder="Seleccione filtro"
-        [(ngModel)]="selectedValue"
-        (ionChange)="selectionChanged()"
-      >
-        <ion-select-option value="movie">Películas</ion-select-option>
-        <ion-select-option value="tv">Series</ion-select-option>
-      </ion-select>
+
+        <ion-select placeholder="Filtrar por género" [value]="generoSelectedValue" (ionChange)=genSelectChange($event) multiple>
+          <ion-select-option *ngFor="let gen of generosList" value="{{gen.id}}">{{gen.name}}</ion-select-option>
+        </ion-select>
+
     </ion-item>
   </ion-toolbar>
 </ion-header>
@@ -32,6 +29,7 @@
 <ion-content>
   <ion-list>
     <div *ngIf="searchCardContainer.length > 0">
+
       <ion-grid fixed="true">
         <ion-row>
           <ion-col
@@ -52,6 +50,8 @@
           </ion-col>
         </ion-row>
       </ion-grid>
+
+
 
       <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content
